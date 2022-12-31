@@ -5,7 +5,7 @@ import sys
 import threading
 
 # Set up the ChatGPT API client
-openai.api_key = "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"
+openai.api_key = "Your-API-key"
 
 # Set up the text-to-speech engine
 engine = pyttsx3.init()
