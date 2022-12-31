@@ -1,5 +1,3 @@
-from cmath import e
-from distutils.command.check import check
 import openai
 import pyttsx3
 import speech_recognition as sr
@@ -7,7 +5,7 @@ import sys
 import threading
 
 # Set up the ChatGPT API client
-openai.api_key = "Your_API"
+openai.api_key = "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"
 
 # Set up the text-to-speech engine
 engine = pyttsx3.init()
@@ -27,7 +25,7 @@ engine.setProperty('rate', 180)
 
 # Set up the speech recognition engine
 r = sr.Recognizer()
-
+sleeping = False
 
 def speak(text):
   engine.say(text)
@@ -36,68 +34,61 @@ def speak(text):
 
 def listen():
   with sr.Microphone() as source:
-    if check == 1:
-        print("Voice receiving")
+    if sleeping == False:
+        print("Voice receiving……")
     else:
-        print("Say "Jarvis" to wake me up")
+        print("Say Jarvis to wake me up")
     audio = r.listen(source)
   try:
-    text = r.recognize_google(audio,language="en-EN")
-    if check == 1:
-        print("You asked：",text)
-    if check == 0:
-        print("What's that?")
+    text = r.recognize_google(audio,language="zh-ZH")
     return text
   except Exception as e:
-    if check == 1:
-        print("Jarvis: What?")
-    elif check == 0:
-        print("What's that?")
+    str(e)
     return None
 
-
 def generate_response(prompt):
-  if check == 1:
-    completions = openai.Completion.create(
-      engine="text-davinci-003",
-      prompt=prompt,
-      n=1,
-      max_tokens=2048,
-      stop=None
+  completions = openai.Completion.create(
+    engine="text-davinci-003",
+    prompt=prompt,
+    n=1,
+    max_tokens=2048,
+    stop=None
   )
-    message = completions.choices[0].text
-    return message
-  if check == 0:
-      return None
+  message = completions.choices[0].text
+  return message
 
 speak("I'm Jarvis, the third generation AI. What can I do to help you?")
-check = 1
+
 
 while True:
-  prompt = listen()
-  if check == 0 and prompt =="Jarvis":
-      check = 1
-      speak("Please")
+    prompt = listen()
+    if prompt == "Shutdown":
+        speak("See you next time.")
+        sys.exit()
 
-  elif check == 1:
-    if prompt == "Sleep":
-      check = 0
-      speak("Sleeping")
-    elif prompt == "Shutdown":
-      # Exit the program
-      speak("Computer shutdown")
-      sys.exit()
-    elif prompt is None:
-        speak("What？")
-    else:
-        # Set up a timer to interrupt the text-to-speech engine after 10 seconds
-        timer = threading.Timer(10.0, engine.stop)
-        timer.start()
+    elif sleeping == True:
+        if prompt == "Jarvis":
+            sleeping = False
+            speak("I'm here.")
+        else:
+            print(prompt,"is what?")
 
-        # Speak the response
-        response = generate_response(prompt)
-        speak(response+".Here are my notes.")
-        print("Jarvis：",response)
+    elif sleeping == False:
+        if prompt == "Sleep":
+            sleeping = True
+            speak("Sleeping……")
+        elif prompt is None:
+            speak("What?")
+        else:
+            # Set up a timer to interrupt the text-to-speech engine after 10 seconds
+            timer = threading.Timer(8.0, engine.stop)
+            timer.start()
 
-        # Cancel the timer if the response finishes speaking before it expires
-        timer.cancel()
+            # Speak the response
+            print("You asked:",prompt)
+            response = generate_response(prompt)
+            speak(response+".Here are my notes.")
+            print("Jarvis: ",response)
+
+            # Cancel the timer if the response finishes speaking before it expires
+            timer.cancel()
