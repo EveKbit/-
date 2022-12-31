@@ -79,7 +79,7 @@ while True:
       speak("请说。")
 
   elif check == 1:
-    if prompt == "开始睡眠":
+    if prompt == "睡眠":
       check = 0
       speak("休眠中……")
     elif prompt == "关机":
@@ -90,7 +90,7 @@ while True:
         speak("什么？")
     else:
         # Set up a timer to interrupt the text-to-speech engine after 10 seconds
-        timer = threading.Timer(8.0, engine.stop)
+        timer = threading.Timer(10.0, engine.stop)
         timer.start()
 
         # Speak the response
