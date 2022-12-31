@@ -9,7 +9,8 @@ JozefJarosciak的项目地址 https://github.com/JozefJarosciak/OpenAI-ChatGPT-V
 把语音速度提升到180。
 修改了一些文本。
 增减了一些代码
-
+增加了语音输出完之后输出文本。（机器人会说是他整理的笔记）
+增加了语音输入的文本显示
 如何睡眠：说“睡眠”即可
 如何唤醒：说“小娜”即可
 如何关闭：说“关机”即可
@@ -25,6 +26,8 @@ Changes made:
 Increase voice speed to 180.
 Some text has been modified.
 Added or subtracted some codes
+Added text output after voice output. (The robot will say that it is his notes that he organized)
+Added text display for voice input
 How to sleep: just say "sleep"
 How to wake up: just say "Jarvis"
 How to close: just say "Shut down"
