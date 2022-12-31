@@ -62,6 +62,7 @@ def generate_response(prompt):
       engine="text-davinci-003",
       prompt=prompt,
       n=1,
+      max_tokens=2048,
       stop=None
   )
     message = completions.choices[0].text
