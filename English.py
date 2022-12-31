@@ -40,7 +40,7 @@ def listen():
         print("Say Jarvis to wake me up")
     audio = r.listen(source)
   try:
-    text = r.recognize_google(audio,language="zh-ZH")
+    text = r.recognize_google(audio,language="en-EN")
     return text
   except Exception as e:
     str(e)
