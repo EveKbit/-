@@ -90,7 +90,7 @@ while True:
         speak("What？")
     else:
         # Set up a timer to interrupt the text-to-speech engine after 10 seconds
-        timer = threading.Timer(8.0, engine.stop)
+        timer = threading.Timer(10.0, engine.stop)
         timer.start()
 
         # Speak the response
