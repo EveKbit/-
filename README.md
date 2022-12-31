@@ -12,7 +12,7 @@ JozefJarosciak的项目地址 https://github.com/JozefJarosciak/OpenAI-ChatGPT-V
 增加了语音输出完之后输出文本。（机器人会说是他整理的笔记）
 增加了语音输入的文本显示
 如何睡眠：说“睡眠”即可
-如何唤醒：说“小娜”即可
+如何唤醒：说“墨柒”即可
 如何关闭：说“关机”即可
 
 This is an improvement of an open source project based on PiscesLin, which adds the sleep function. Since I am a novice, the code will inevitably make mistakes. I hope you can make improvements.
