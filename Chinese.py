@@ -77,7 +77,7 @@ while True:
   prompt = listen()
   if check == 0 and prompt =="墨柒":
       check = 1
-      speak("请说。")
+      speak("我在。")
 
   elif check == 1:
     if prompt == "睡眠":
