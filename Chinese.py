@@ -1,5 +1,3 @@
-from cmath import e
-from distutils.command.check import check
 import openai
 import pyttsx3
 import speech_recognition as sr
@@ -7,7 +5,7 @@ import sys
 import threading
 
 # Set up the ChatGPT API client
-openai.api_key = "Your_API"
+openai.api_key = "Your-API-Key"
 
 # Set up the text-to-speech engine
 engine = pyttsx3.init()
@@ -27,7 +25,7 @@ engine.setProperty('rate', 180)
 
 # Set up the speech recognition engine
 r = sr.Recognizer()
-
+sleeping = False
 
 def speak(text):
   engine.say(text)
@@ -36,68 +34,61 @@ def speak(text):
 
 def listen():
   with sr.Microphone() as source:
-    if check == 1:
+    if sleeping == False:
         print("语音接收中……")
     else:
-        print("说“墨柒”来唤醒我。")
+        print("说“小唐”来唤醒我。")
     audio = r.listen(source)
   try:
     text = r.recognize_google(audio,language="zh-ZH")
-    if check == 1:
-        print("你说：",text)
-    if check == 0:
-        print("那是什么？")
     return text
   except Exception as e:
-    if check == 1:
-        print("墨柒: 什么？")
-    elif check == 0:
-        print("那是什么？")
+    str(e)
     return None
 
-
 def generate_response(prompt):
-  if check == 1:
-    completions = openai.Completion.create(
-      engine="text-davinci-003",
-      prompt=prompt,
-      n=1,
-      max_tokens=2048,
-      stop=None
+  completions = openai.Completion.create(
+    engine="text-davinci-003",
+    prompt=prompt,
+    n=1,
+    max_tokens=2048,
+    stop=None
   )
-    message = completions.choices[0].text
-    return message
-  if check == 0:
-      return None
+  message = completions.choices[0].text
+  return message
 
-speak("我是墨柒,第三代人工智能，我能帮助你些什么？")
-check = 1
+speak("我是小唐,第三代人工智能，我能帮助你些什么？")
+
 
 while True:
-  prompt = listen()
-  if check == 0 and prompt =="墨柒":
-      check = 1
-      speak("我在。")
+    prompt = listen()
+    if prompt == "关机":
+        speak("下次再见。")
+        sys.exit()
 
-  elif check == 1:
-    if prompt == "睡眠":
-      check = 0
-      speak("休眠中……")
-    elif prompt == "关机":
-      # Exit the program
-      speak("电脑关机。")
-      sys.exit()
-    elif prompt is None:
-        speak("什么？")
-    else:
-        # Set up a timer to interrupt the text-to-speech engine after 10 seconds
-        timer = threading.Timer(10.0, engine.stop)
-        timer.start()
+    elif sleeping == True:
+        if prompt == "小唐":
+            sleeping = False
+            speak("我在。")
+        else:
+            print(prompt,"是什么？")
 
-        # Speak the response
-        response = generate_response(prompt)
-        speak(response+"。以下是我准备的笔记。")
-        print("墨柒：",response)
+    elif sleeping == False:
+        if prompt == "睡眠":
+            sleeping = True
+            speak("休眠中……")
+        elif prompt is None:
+            speak("什么?")
+        else:
+            # Set up a timer to interrupt the text-to-speech engine after 10 seconds
+            timer = threading.Timer(8.0, engine.stop)
+            timer.start()
 
-        # Cancel the timer if the response finishes speaking before it expires
-        timer.cancel()
+            # Speak the response
+            print("你说:",prompt)
+            response = generate_response(prompt)
+            speak(response+"。以下是我整理的笔记。")
+            print("小唐: ",response)
+
+            # Cancel the timer if the response finishes speaking before it expires
+            timer.cancel()
