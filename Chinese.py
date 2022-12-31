@@ -39,7 +39,7 @@ def listen():
     if check == 1:
         print("语音接收中……")
     else:
-        print("说“小娜”来唤醒我。")
+        print("说“墨柒”来唤醒我。")
     audio = r.listen(source)
   try:
     text = r.recognize_google(audio,language="zh-ZH")
@@ -50,7 +50,7 @@ def listen():
     return text
   except Exception as e:
     if check == 1:
-        print("小娜: 什么？")
+        print("墨柒: 什么？")
     elif check == 0:
         print("那是什么？")
     return None
@@ -70,12 +70,12 @@ def generate_response(prompt):
   if check == 0:
       return None
 
-speak("我是小娜,第三代人工智能，我能帮助你些什么？")
+speak("我是墨柒,第三代人工智能，我能帮助你些什么？")
 check = 1
 
 while True:
   prompt = listen()
-  if check == 0 and prompt =="小娜":
+  if check == 0 and prompt =="墨柒":
       check = 1
       speak("请说。")
 
@@ -97,7 +97,7 @@ while True:
         # Speak the response
         response = generate_response(prompt)
         speak(response+"。以下是我准备的笔记。")
-        print("小娜：",response)
+        print("墨柒：",response)
 
         # Cancel the timer if the response finishes speaking before it expires
         timer.cancel()
